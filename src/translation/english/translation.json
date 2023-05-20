@@ -1,5 +1,8 @@
 {
-  "header": "Layout & Style",
+  "layout_title": "Layout & Style",
+  "form_title": "Form & Title",
   "leftright": "Move shape",
-  "topdown": "Move position"
+  "topdown": "Move position",
+  "test": "Test",
+  "home": "Home"
 }

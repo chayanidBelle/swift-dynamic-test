@@ -1,38 +1,63 @@
-.App {
-  text-align: center;
+/* #ffa200 */
+/* #6eda78 */
+
+.layout {
+  position: relative;
+  height: 100vh;
+  background: linear-gradient(90deg, #6eda78, #ffa200);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.header {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  z-index: 2000;
+  top: 0;
+  right: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.content {
+  position: absolute;
+  top: 40%;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.column {
+  display: flex;
+  gap: 20px;
+}
+
+.box-title {
+  width: 250px;
+  height: 110px;
+  background-color: #fff;
+  padding: 15px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-evenly;
 }
 
-.App-link {
-  color: #61dafb;
+.divForm {
+  border: 2px solid black;
+  border-radius: 15px;
+  height: 100%;
+  width: 100%;
+  max-width: 900px;
+  padding: 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.formLayout {
+  position: relative;
+  padding: 20px;
+  background: linear-gradient(90deg, #6eda78, #ffa200);
+  height: 160vh;
+}
+
+.formHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 10px;
 }
