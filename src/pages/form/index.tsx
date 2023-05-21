@@ -1,9 +1,9 @@
 import { Button, Col, DatePicker, Form, Input, Radio, Row, Select } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { countryCodeList, nameTitleList, nationalityList } from '../../data/data-list';
-import { updateForm, updateIdCard } from '../../stores/manage-form/manage-form-reducer';
+import { IForm, setRecord, updateForm } from '../../stores/manage-form/manage-form-reducer';
 import TableComponent from './table';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
@@ -12,34 +12,68 @@ const FormPage = () => {
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const [form] = Form.useForm();
-  const { id_card } = useSelector((state: any) => state.form);
+  const { dataList } = useSelector((state: any) => state.manageForm);
   const initialData = JSON.parse(localStorage.getItem('dataSource') || 'null');
-
-  const onFieldChange = (e: any) => {
-    const dataField = e.target.name;
-    if (dataField === 'id_card') {
-      dispatch(updateIdCard(e.target.value));
-    }
-  };
+  const [data, setData] = useState({});
 
   const onFinish = (values: any) => {
+    console.log('form', form);
     const birth_date = form.getFieldValue('birth_date').toDate();
     const utc = moment.utc(birth_date).format();
-    const new_form = { ...values, birth_date: utc };
-    dispatch(updateForm(new_form));
-    onSetLocalStorage({ ...new_form, id_card, key: Math.random().toString() });
+    const id = Math.random();
+
+    // const new_form: IForm = {
+    //   key: key.toString(),
+    //   birth_date: utc,
+    //   id_card: '',
+    //   expected_salary: values.expected_salary,
+    //   gender: values.gender,
+    //   last_name: values.last_name,
+    //   name: values.name,
+    //   name_title: values.name_title,
+    //   nationality: values.nationality,
+    //   passport: values.passport ? values.passport : '',
+    //   phone_no: values.phone_no ? values.phone_no : '',
+    // };
+
+    let new_form = { key: id.toString(), birth_date: utc };
+    for (const key in values) {
+      if (
+        key !== 'id_card1' &&
+        key !== 'id_card2' &&
+        key !== 'id_card3' &&
+        key !== 'id_card4' &&
+        key !== 'id_card5' &&
+        key !== 'birth_date'
+      ) {
+        new_form = { ...new_form, [key]: values[key] ? values[key] : '' };
+      }
+    }
+
+    console.log('new_form', new_form);
+
+    console.log('new_form', new_form);
+    let temp = dataList;
+    console.log('temp 1 :>> ', temp);
+    temp.push(new_form);
+    console.log('temp 2 :>> ', temp);
+
+    // dispatch(updateForm(new_form));
+    // dispatch(setRecord(new_form));
+    // onSetLocalStorage(new_form);
   };
 
-  const onSetLocalStorage = (form: any) => {
-    if (!initialData) {
-      let default_value: any[] = [];
-      let new_values = { ...form };
-      default_value.push(new_values);
-      localStorage.setItem('dataSource', JSON.stringify(default_value));
-    } else {
-      let initial = [...initialData, form];
-      localStorage.setItem('dataSource', JSON.stringify(initial));
-    }
+  const onSetLocalStorage = (new_form: IForm) => {
+    // if (!initialData || initialData.length === 0) {
+    //   let default_value: any[] = [];
+    //   let new_values = { ...new_form };
+    //   default_value.push(new_values);
+    //   localStorage.setItem('dataSource', JSON.stringify(default_value));
+    // } else {
+    //   let temp: any[] = [...initialData];
+    //   temp.push(new_form);
+    //   localStorage.setItem('dataSource', JSON.stringify(temp));
+    // }
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -48,6 +82,10 @@ const FormPage = () => {
 
   const onChangeLangauge = (value: any) => {
     i18n.changeLanguage(value);
+  };
+
+  const onClearForm = () => {
+    form.resetFields();
   };
 
   return (
@@ -70,6 +108,16 @@ const FormPage = () => {
             <Button>{t('home')}</Button>
           </Link>
         </div>
+
+        <Button
+          onClick={() => {
+            let test: any[] = [];
+            test.push(data);
+            console.log('test :>> ', test);
+          }}
+        >
+          Check
+        </Button>
 
         <div
           style={{
@@ -143,31 +191,41 @@ const FormPage = () => {
                   <Form.Item label='เลขบัตรประชาชน'>
                     <Row>
                       <Col span={2}>
-                        <Input maxLength={1} name='id_card' onBlur={onFieldChange} />
+                        <Form.Item name='id_card1'>
+                          <Input maxLength={1} />
+                        </Form.Item>
                       </Col>
-                      <Col span={1} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <Col span={1} style={{ display: 'flex', justifyContent: 'center' }}>
                         -
                       </Col>
                       <Col span={5}>
-                        <Input maxLength={4} name='id_card' onBlur={onFieldChange} />
+                        <Form.Item name='id_card2'>
+                          <Input maxLength={4} />
+                        </Form.Item>
                       </Col>
-                      <Col span={1} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <Col span={1} style={{ display: 'flex', justifyContent: 'center' }}>
                         -
                       </Col>
                       <Col span={5}>
-                        <Input maxLength={5} name='id_card' onBlur={onFieldChange} />
+                        <Form.Item name='id_card3'>
+                          <Input maxLength={5} />
+                        </Form.Item>
                       </Col>
-                      <Col span={1} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <Col span={1} style={{ display: 'flex', justifyContent: 'center' }}>
                         -
                       </Col>
                       <Col span={3}>
-                        <Input maxLength={2} name='id_card' onBlur={onFieldChange} />
+                        <Form.Item name='id_card4'>
+                          <Input maxLength={2} />
+                        </Form.Item>
                       </Col>
-                      <Col span={1} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <Col span={1} style={{ display: 'flex', justifyContent: 'center' }}>
                         -
                       </Col>
                       <Col span={2}>
-                        <Input maxLength={1} name='id_card' onBlur={onFieldChange} />
+                        <Form.Item name='id_card5'>
+                          <Input maxLength={1} />
+                        </Form.Item>
                       </Col>
                     </Row>
                   </Form.Item>
@@ -220,7 +278,7 @@ const FormPage = () => {
 
                 <Col span={5}>
                   <Form.Item>
-                    <Button>ล้างข้อมูล</Button>
+                    <Button onClick={onClearForm}>ล้างข้อมูล</Button>
                   </Form.Item>
                 </Col>
 
@@ -233,7 +291,7 @@ const FormPage = () => {
             </Form>
           </div>
 
-          <TableComponent dataSource={!initialData ? [] : initialData} />
+          <TableComponent />
         </div>
       </div>
     </>
