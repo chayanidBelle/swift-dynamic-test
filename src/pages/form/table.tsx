@@ -69,6 +69,8 @@ interface ITable {
 const TableComponent = (props: ITable) => {
   const dispatch = useDispatch();
   const { selectedRow } = useSelector((state: any) => state.form);
+  const getData = localStorage.getItem('dataSource' || 'null');
+  const dataSource = getData ? JSON.parse(getData) : [];
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
     dispatch(selectRows(newSelectedRowKeys));
@@ -77,14 +79,19 @@ const TableComponent = (props: ITable) => {
   const rowSelection = {
     selectedRow,
     onChange: onSelectChange,
+    hideSelectAll: true,
   };
 
   const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
     console.log('params', pagination, filters, sorter, extra);
   };
 
-  const onSelectAll = () => {
-    console.log('Select All');
+  const onSelectAll = (e: any) => {
+    let getAllRows: any[] = [];
+    if (e.target.checked) {
+      getAllRows = dataSource?.length > 0 ? dataSource?.map((item: any) => item.key) : [];
+    }
+    dispatch(selectRows(getAllRows));
   };
 
   const onDeleteAll = () => {
