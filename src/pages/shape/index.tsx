@@ -1,5 +1,4 @@
 import { Button, Col, Divider, Row, Select } from 'antd';
-import { wrap } from 'module';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
