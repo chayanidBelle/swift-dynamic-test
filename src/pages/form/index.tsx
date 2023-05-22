@@ -1,9 +1,9 @@
 import { Button, Col, DatePicker, Form, Input, Radio, Row, Select } from 'antd';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { countryCodeList, nameTitleList, nationalityList } from '../../data/data-list';
-import { updateForm, updateIdCard } from '../../stores/manage-form/manage-form-reducer';
+import { updateForm } from '../../stores/manage-form/manage-form-reducer';
 import TableComponent from './table';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
@@ -12,20 +12,35 @@ const FormPage = () => {
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const [form] = Form.useForm();
-  const { id_card } = useSelector((state: any) => state.form);
   const initialData = JSON.parse(localStorage.getItem('dataSource') || 'null');
 
-  const onFieldChange = (e: any) => {
-    const dataField = e.target.name;
-    if (dataField === 'id_card') {
-      dispatch(updateIdCard(e.target.value));
-    }
-  };
-
   const onFinish = (values: any) => {
+    let id_card_list: any[] = [];
+    let id_card = '';
+    for (const key in values) {
+      if (
+        (key === 'id_card1' || key === 'id_card2' || key === 'id_card3' || key === 'id_card4' || key === 'id_card5') &&
+        values[key] !== ''
+      ) {
+        id_card_list.push(values[key]);
+        id_card = id_card_list.join('');
+      }
+    }
+
     const birth_date = form.getFieldValue('birth_date').toDate();
     const utc = moment.utc(birth_date).format();
-    const new_form = { ...values, birth_date: utc };
+    const new_form = {
+      id_card,
+      birth_date: utc,
+      expected_salary: values.expected_salary,
+      gender: values.gender,
+      last_name: values.last_name,
+      name: values.name,
+      name_title: values.name_title,
+      nationality: values.nationality,
+      passport: values.passport ? values.passport : '',
+      phone_no: values.phone_no ? values.phone_no : '',
+    };
     dispatch(updateForm(new_form));
     onSetLocalStorage({ ...new_form, id_card, key: Math.random().toString() });
   };
@@ -147,40 +162,40 @@ const FormPage = () => {
                   <Form.Item label='เลขบัตรประชาชน'>
                     <Row>
                       <Col span={2}>
-                        <Form.Item>
-                          <Input maxLength={1} name='id_card' onBlur={onFieldChange} />
+                        <Form.Item name='id_card1'>
+                          <Input maxLength={1} />
                         </Form.Item>
                       </Col>
                       <Col span={1} style={{ display: 'flex', justifyContent: 'center' }}>
                         -
                       </Col>
                       <Col span={5}>
-                        <Form.Item>
-                          <Input maxLength={4} name='id_card' onBlur={onFieldChange} />
+                        <Form.Item name='id_card2'>
+                          <Input maxLength={4} />
                         </Form.Item>
                       </Col>
                       <Col span={1} style={{ display: 'flex', justifyContent: 'center' }}>
                         -
                       </Col>
                       <Col span={5}>
-                        <Form.Item>
-                          <Input maxLength={5} name='id_card' onBlur={onFieldChange} />
+                        <Form.Item name='id_card3'>
+                          <Input maxLength={5} />
                         </Form.Item>
                       </Col>
                       <Col span={1} style={{ display: 'flex', justifyContent: 'center' }}>
                         -
                       </Col>
                       <Col span={3}>
-                        <Form.Item>
-                          <Input maxLength={2} name='id_card' onBlur={onFieldChange} />
+                        <Form.Item name='id_card4'>
+                          <Input maxLength={2} />
                         </Form.Item>
                       </Col>
                       <Col span={1} style={{ display: 'flex', justifyContent: 'center' }}>
                         -
                       </Col>
                       <Col span={2}>
-                        <Form.Item>
-                          <Input maxLength={1} name='id_card' onBlur={onFieldChange} />
+                        <Form.Item name='id_card5'>
+                          <Input maxLength={1} />
                         </Form.Item>
                       </Col>
                     </Row>

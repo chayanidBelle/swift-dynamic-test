@@ -44,17 +44,11 @@ const manageFormSlice = createSlice({
     updateForm: (state, action: PayloadAction<any>) => {
       return { ...state, ...action.payload };
     },
-    updateIdCard: (state, action: PayloadAction<any>) => {
-      const init = state.id_card;
-      //FIX ME
-      const new_value = action.payload !== '' ? `${init}${action.payload}` : init;
-      return { ...state, id_card: new_value };
-    },
     selectRows: (state, action: PayloadAction<any>) => {
       return { ...state, selectedRow: action.payload };
     },
   },
 });
 
-export const { setTestType, updateForm, updateIdCard, selectRows } = manageFormSlice.actions;
+export const { setTestType, updateForm, selectRows } = manageFormSlice.actions;
 export default manageFormSlice.reducer;
