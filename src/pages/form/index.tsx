@@ -46,6 +46,10 @@ const FormPage = () => {
     console.log('Failed:', errorInfo);
   };
 
+  const onClearForm = () => {
+    form.resetFields();
+  };
+
   const onChangeLangauge = (value: any) => {
     i18n.changeLanguage(value);
   };
@@ -143,31 +147,41 @@ const FormPage = () => {
                   <Form.Item label='เลขบัตรประชาชน'>
                     <Row>
                       <Col span={2}>
-                        <Input maxLength={1} name='id_card' onBlur={onFieldChange} />
+                        <Form.Item>
+                          <Input maxLength={1} name='id_card' onBlur={onFieldChange} />
+                        </Form.Item>
                       </Col>
-                      <Col span={1} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <Col span={1} style={{ display: 'flex', justifyContent: 'center' }}>
                         -
                       </Col>
                       <Col span={5}>
-                        <Input maxLength={4} name='id_card' onBlur={onFieldChange} />
+                        <Form.Item>
+                          <Input maxLength={4} name='id_card' onBlur={onFieldChange} />
+                        </Form.Item>
                       </Col>
-                      <Col span={1} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <Col span={1} style={{ display: 'flex', justifyContent: 'center' }}>
                         -
                       </Col>
                       <Col span={5}>
-                        <Input maxLength={5} name='id_card' onBlur={onFieldChange} />
+                        <Form.Item>
+                          <Input maxLength={5} name='id_card' onBlur={onFieldChange} />
+                        </Form.Item>
                       </Col>
-                      <Col span={1} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <Col span={1} style={{ display: 'flex', justifyContent: 'center' }}>
                         -
                       </Col>
                       <Col span={3}>
-                        <Input maxLength={2} name='id_card' onBlur={onFieldChange} />
+                        <Form.Item>
+                          <Input maxLength={2} name='id_card' onBlur={onFieldChange} />
+                        </Form.Item>
                       </Col>
-                      <Col span={1} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <Col span={1} style={{ display: 'flex', justifyContent: 'center' }}>
                         -
                       </Col>
                       <Col span={2}>
-                        <Input maxLength={1} name='id_card' onBlur={onFieldChange} />
+                        <Form.Item>
+                          <Input maxLength={1} name='id_card' onBlur={onFieldChange} />
+                        </Form.Item>
                       </Col>
                     </Row>
                   </Form.Item>
@@ -220,7 +234,7 @@ const FormPage = () => {
 
                 <Col span={5}>
                   <Form.Item>
-                    <Button>ล้างข้อมูล</Button>
+                    <Button onClick={onClearForm}>ล้างข้อมูล</Button>
                   </Form.Item>
                 </Col>
 
@@ -233,7 +247,7 @@ const FormPage = () => {
             </Form>
           </div>
 
-          <TableComponent dataSource={!initialData ? [] : initialData} />
+          <TableComponent />
         </div>
       </div>
     </>

@@ -6,12 +6,13 @@ import { useTranslation } from 'react-i18next';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import FormPage from './pages/form';
 import { Link } from 'react-router-dom';
+import ShapeComponent from './pages/shape';
 
 function App() {
   return (
     <Routes>
       <Route path='/' element={<HomeComponent />} />
-      <Route path='/layout' element={<></>} />
+      <Route path='/layout' element={<ShapeComponent />} />
       <Route path='/form' element={<FormPage />} />
       <Route path='*' element={<Navigate to='/' replace />} />
     </Routes>
