@@ -46,6 +46,7 @@ const manageFormSlice = createSlice({
     },
     updateIdCard: (state, action: PayloadAction<any>) => {
       const init = state.id_card;
+      //FIX ME
       const new_value = action.payload !== '' ? `${init}${action.payload}` : init;
       return { ...state, id_card: new_value };
     },

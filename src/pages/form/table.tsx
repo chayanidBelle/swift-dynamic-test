@@ -69,13 +69,7 @@ const TableComponent = () => {
   const isEditing = (record: any) => record.key === editRow?.key;
 
   const sortAlphabet = (a: any, b: any) => {
-    if (a.name < b.name) {
-      return -1;
-    }
-    if (a.name > b.name) {
-      return 1;
-    }
-    return 0;
+    return a.toLowerCase().localeCompare(b.toLowerCase());
   };
 
   const columns: any = [
@@ -83,14 +77,15 @@ const TableComponent = () => {
       title: 'ขื่อ',
       dataIndex: 'name',
       key: 'name',
-      sorter: (a: any, b: any) => sortAlphabet(a, b),
+      defaultSortOrder: 'ascend',
+      sorter: (a: any, b: any) => sortAlphabet(a.name, b.name),
       editable: true,
     },
     {
       title: 'นามสกุล',
       dataIndex: 'last_name',
       key: 'last_name',
-      sorter: (a: any, b: any) => sortAlphabet(a, b),
+      sorter: (a: any, b: any) => sortAlphabet(a.last_name, b.last_name),
       editable: true,
     },
     {
@@ -114,6 +109,7 @@ const TableComponent = () => {
       key: 'nationality',
       dataIndex: 'nationality',
       editable: false,
+      sorter: (a: any, b: any) => sortAlphabet(a.nationality, b.nationality),
       render: (value: any, record: any) => (
         <Typography.Text>{nationalityList.find((item: any) => item.value === value)?.label}</Typography.Text>
       ),
